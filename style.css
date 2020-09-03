@@ -1,0 +1,118 @@
+  body {
+      background-color: #fbeaea;
+  }
+
+  .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      grid-gap: 10px;
+      max-width: 960px;
+      margin: 0 auto;
+  }
+
+  article {
+      background-color: #d8c0c0;
+      padding: 10px;
+      border-radius: 25px;
+  }
+
+
+  img {
+      max-width: 100%;
+  }
+
+  h1 {
+      text-align: center;
+      font-family: alata;
+      text-transform: uppercase;
+  }
+
+  h2 {
+      font-family: alata;
+  }
+
+  p {
+      font-family: roboto slab;
+  }
+
+  header {
+      display: flex;
+      justify-content: center;
+  }
+
+  button {
+      padding: 10px;
+      margin: 0px 30px 30px;
+      background-color: aliceblue;
+      font-family: roboto slab;
+      border: none;
+
+  }
+
+  .valgt {
+      background-color: white;
+  }
+
+  #popup {
+      position: fixed;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0, 0, 0, .7);
+      display: none;
+  }
+
+  #popup article {
+      width: 80vw;
+      height: 80vh;
+      margin: 4rem auto;
+      background-color: #d8c0c0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+  }
+
+  #luk_knap {
+      position: fixed;
+      top: 2%;
+      right: 4%;
+      background-color: lightgray;
+      color: black;
+      border-radius: 5px;
+      padding: 1.5vw;
+      font-family: alata;
+  }
+
+  #popup img {
+      max-width: 400px;
+  }
+
+  #popup article p {
+      align-self: flex-start;
+  }
+
+  #splash {
+      background-image: url(imgs/babushka_splash.png);
+      background-size: cover;
+      background-repeat: no-repeat;
+      width: 100vw;
+      height: 40vw;
+      max-width: none;
+
+  }
+
+  #splash_display h1 {
+      font-size: 12vw;
+      text-align: center;
+      margin: 0px;
+      padding: 0px;
+      color: #832424;
+
+  }
+
+  @media (min-width:600px) {
+      #popup img {
+          max-width: 500px;
+      }
+  }

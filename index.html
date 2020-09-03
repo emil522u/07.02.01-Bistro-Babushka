@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bistro Babushka</title>
+    <link href="https://fonts.googleapis.com/css2?family=Alata&family=Roboto+Slab&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <section id="popup">
+        <article>
+            <div id="luk_knap">X</div>
+            <h2></h2>
+            <img src="" alt="">
+            <p><span class="lang"></span> </p>
+            <p>Oprindelse: <span class="oprindelse"></span></p>
+        </article>
+    </section>
+    <div id="splash">
+        <div id="splash_display">
+            <h1>Bistro Babushka</h1>
+        </div>
+    </div>
+    <h1 class="menu">Menu</h1>
+    <header>
+        <button class="filter valgt" data-kategori="alle">Alle
+        </button>
+        <button class="filter" data-kategori="forretter">Forretter
+        </button>
+        <button class="filter" data-kategori="hovedretter">Hovedretter
+        </button>
+        <button class="filter" data-kategori="sideorders">Sideorders
+        </button>
+        <button class="filter" data-kategori="desserter">Desserter
+        </button>
+        <button class="filter" data-kategori="drikkevarer">Drikkevarer
+        </button>
+    </header>
+
+    <section class="container">
+    </section>
+    <template>
+        <article>
+            <h2></h2>
+            <img src="" alt="">
+            <p class="kort"></p>
+            <p class="pris"></p>
+        </article>
+    </template>
+
+    <script>
+        let retter;
+        let filter = "alle";
+        document.addEventListener("DOMContentLoaded", loadJSON)
+
+        async function loadJSON() {
+            const JSONData = await fetch("https://spreadsheets.google.com/feeds/list/17Dd7DvkPaFamNUdUKlrFgnH6POvBJXac7qyiS6zNRw0/od6/public/values?alt=json");
+            retter = await JSONData.json();
+            addEventListenersToButtons();
+            visRetter();
+        }
+
+        function visRetter() {
+            const templatePointer = document.querySelector("template");
+            const sectionPointer = document.querySelector(".container");
+            sectionPointer.innerHTML = "";
+            retter.feed.entry.forEach(ret => {
+                if (filter == "alle" || filter == ret.gsx$kategori.$t) {
+                    console.log(ret);
+                    const minKlon = templatePointer.cloneNode(true).content;
+                    minKlon.querySelector("h2").textContent = ret.gsx$navn.$t;
+                    minKlon.querySelector(".kort").textContent = ret.gsx$kort.$t;
+                    minKlon.querySelector(".pris").textContent = ret.gsx$pris.$t + " kr.";
+                    minKlon.querySelector("img").src = "imgs/small/" + ret.gsx$billede.$t + "-sm.jpg";
+                    minKlon.querySelector("article").addEventListener("click", () => visDetaljer(ret));
+                    sectionPointer.appendChild(minKlon);
+
+                }
+            })
+        }
+
+        function visDetaljer(ret) {
+            popup.style.display = "block";
+            popup.querySelector("h2").textContent = ret.gsx$navn.$t;
+            popup.querySelector(".lang").textContent = ret.gsx$lang.$t;
+            popup.querySelector(".oprindelse").textContent = ret.gsx$oprindelse.$t;
+            popup.querySelector("img").src = "imgs/large/" + ret.gsx$billede.$t + ".jpg";
+        }
+
+        function addEventListenersToButtons() {
+            document.querySelectorAll(".filter").forEach((btn) => {
+                btn.addEventListener("click", filterBTNs);
+            });
+        }
+
+        document.querySelector("#luk_knap").addEventListener("click", lukpopup);
+
+        function lukpopup() {
+            popup.style.display = "none";
+        }
+
+        function filterBTNs() {
+            filter = this.dataset.kategori;
+            document.querySelector(".menu").textContent = this.textContent;
+            document.querySelectorAll(".filter").forEach((btn) => {
+                btn.classList.remove("valgt");
+            })
+            this.classList.add("valgt");
+            visRetter();
+        }
+
+    </script>
+</body>
+
+</html>
